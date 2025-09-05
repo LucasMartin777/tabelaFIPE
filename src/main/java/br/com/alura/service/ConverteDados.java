@@ -18,6 +18,7 @@ public class ConverteDados implements IConverteDados {
         }
     }
 
+    @Override
     public <T> List<T> obterLista(String json, Class<T> classe) {
         try {
             return mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, classe));

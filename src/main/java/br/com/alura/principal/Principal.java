@@ -17,9 +17,7 @@ public class Principal {
     private final String ENDERECO = "https://parallelum.com.br/fipe/api/v1/";
     String tipoVeiculo = "";
 
-    public static void main(String[] args) {
 
-    }
 
     public void exibirMenu() {
         System.out.println("Por gentileza, informe o tipo de veiculo:\n1 - carro\n  \n2 - moto\n  \n3 - caminhao");
@@ -34,7 +32,7 @@ public class Principal {
         }
         var json = consumo.conexao(ENDERECO + tipoVeiculo);
         List<DadosMarcasCarros> dados = conversor.obterLista(json, DadosMarcasCarros.class);
-//        System.out.println(dados);
+
 
         Map<Integer, String> escolhaCarro = dados.stream()
                 .collect(Collectors.toMap(DadosMarcasCarros::codigo, DadosMarcasCarros::nome));
@@ -47,7 +45,6 @@ public class Principal {
         int numeroSelecionado2 = leitura.nextInt();
         var json2 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos");
 
-//        System.out.println(json2);
 
         WrapperDadosModelos dados2 = conversor.obterDados(json2, WrapperDadosModelos.class);
 
@@ -70,7 +67,7 @@ public class Principal {
         List<DadosModelosCarrosAnos> dados4 = conversor.obterLista(json3, DadosModelosCarrosAnos.class);
 
 
-        dados4.forEach(modelo -> System.out.println(modelo.getCodigo() + " - " + modelo.getNome()));
+        dados4.forEach(modelo -> System.out.println(modelo.getCodigoOriginal() + " - " + modelo.getNome()));
 
 
         System.out.println("Por gentileza, escolha o ano do seu carro:\n");
@@ -79,13 +76,12 @@ public class Principal {
         String numeroSelecionado4 = leitura.nextLine();
 
 
-        var json4 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos" + "/" + numeroSelecionado3 + "/" + "anos" + "/" + "1992-1");
+        var json4 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos" + "/" + numeroSelecionado3 + "/" + "anos" + "/" + numeroSelecionado4);
 
-        List<DadosCarroFinal> dados5 = conversor.obterLista(json4, DadosCarroFinal.class);
+
+        DadosCarroFinal dados5 = conversor.obterDados(json4, DadosCarroFinal.class);
 
         System.out.println(dados5);
-
-//        dados5.forEach(modelo -> System.out.println(modelo.getCodigo() + " - " + modelo.getNome()));
 
 
     }
