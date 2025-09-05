@@ -2,6 +2,7 @@ package br.com.alura.principal;
 
 import br.com.alura.models.DadosMarcasCarros;
 import br.com.alura.models.DadosModelosCarros;
+import br.com.alura.models.DadosModelosCarrosAnos;
 import br.com.alura.models.WrapperDadosModelos;
 import br.com.alura.service.ConsumoApi;
 import br.com.alura.service.ConverteDados;
@@ -48,13 +49,27 @@ public class Principal {
         System.out.println("Por gentileza, informe o modelo do veiculo:");
         int numeroSelecionado2 = leitura.nextInt();
         var json2 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos");
-        System.out.println(json2);
+
+//        System.out.println(json2);
 
         WrapperDadosModelos dados2 = conversor.obterDados(json2, WrapperDadosModelos.class);
-        System.out.println(dados2);
 
-        dados2.modelos()
-                .forEach(modelo -> System.out.println(modelo.codigo() + " - " + modelo.nome()));
+        Map<Integer, String> escolhaCarro2 = dados2.modelos().stream()
+                .collect(Collectors.toMap(DadosModelosCarros::codigo, DadosModelosCarros::nome));
+
+
+        escolhaCarro2.forEach((codigo, nome) -> System.out.println(codigo + " - " + nome));
+
+
+        System.out.println("Por gentileza, escolha o ano do seu carro:\n");
+        dados2.anos()
+                .forEach(modelo -> System.out.println(modelo.getCodigoOriginal() + " - " + modelo.getNome()));
+        leitura.nextLine();
+        String numeroSelecionado3 = leitura.nextLine();
+
+        var json3 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos" + "/" + numeroSelecionado3 + "/" + "anos");
+
+        System.out.println(json3);
 
 
     }
