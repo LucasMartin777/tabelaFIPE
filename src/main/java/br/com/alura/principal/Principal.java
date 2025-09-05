@@ -1,9 +1,6 @@
 package br.com.alura.principal;
 
-import br.com.alura.models.DadosMarcasCarros;
-import br.com.alura.models.DadosModelosCarros;
-import br.com.alura.models.DadosModelosCarrosAnos;
-import br.com.alura.models.WrapperDadosModelos;
+import br.com.alura.models.*;
 import br.com.alura.service.ConsumoApi;
 import br.com.alura.service.ConverteDados;
 
@@ -46,7 +43,7 @@ public class Principal {
         escolhaCarro.forEach((codigo, nome) -> System.out.println(codigo + " - " + nome));
 
 
-        System.out.println("Por gentileza, informe o modelo do veiculo:");
+        System.out.println("Por gentileza, informe a marca do veiculo:");
         int numeroSelecionado2 = leitura.nextInt();
         var json2 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos");
 
@@ -61,15 +58,34 @@ public class Principal {
         escolhaCarro2.forEach((codigo, nome) -> System.out.println(codigo + " - " + nome));
 
 
-        System.out.println("Por gentileza, escolha o ano do seu carro:\n");
-        dados2.anos()
-                .forEach(modelo -> System.out.println(modelo.getCodigoOriginal() + " - " + modelo.getNome()));
+        System.out.println("Por gentileza, informe o modelo do veiculo:");
+
+
         leitura.nextLine();
         String numeroSelecionado3 = leitura.nextLine();
 
+
         var json3 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos" + "/" + numeroSelecionado3 + "/" + "anos");
 
-        System.out.println(json3);
+        List<DadosModelosCarrosAnos> dados4 = conversor.obterLista(json3, DadosModelosCarrosAnos.class);
+
+
+        dados4.forEach(modelo -> System.out.println(modelo.getCodigo() + " - " + modelo.getNome()));
+
+
+        System.out.println("Por gentileza, escolha o ano do seu carro:\n");
+
+
+        String numeroSelecionado4 = leitura.nextLine();
+
+
+        var json4 = consumo.conexao(ENDERECO + tipoVeiculo + "/" + numeroSelecionado2 + "/" + "modelos" + "/" + numeroSelecionado3 + "/" + "anos" + "/" + "1992-1");
+
+        List<DadosCarroFinal> dados5 = conversor.obterLista(json4, DadosCarroFinal.class);
+
+        System.out.println(dados5);
+
+//        dados5.forEach(modelo -> System.out.println(modelo.getCodigo() + " - " + modelo.getNome()));
 
 
     }
